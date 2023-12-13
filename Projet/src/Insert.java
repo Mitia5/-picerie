@@ -1,9 +1,14 @@
+package mouvementbdd;
+
+import element.*;
 import java.util.ArrayList;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 
 public class Insert
@@ -19,12 +24,12 @@ public class Insert
         con = DriverManager.getConnection(URL, USER, PASSWORD);
         return con;
     }
-    public static void Inserdonne (String namereg) 
+    public static void InserdonneProduitAdmin (String Prodname , int typeprod , int cate , int price)
     {
         try 
         {
             Statement stmnt = connect().createStatement();
-            stmnt.executeUpdate("INSERT INTO Region (nom_rg) VALUES ('"+namereg+"')");
+            stmnt.executeUpdate("INSERT INTO Produits (Nomproduit , idtypeproduit , idcategorie, prix) VALUES ('"+Prodname+"',"+typeprod+","+cate+","+price+")");
             stmnt.executeUpdate("commit");
     
         } 
@@ -38,6 +43,8 @@ public class Insert
     {
         Date currentDate = new Date();
         SimpleDateFormat dateformat = new SimpleDateFormat("dd-MM-yyyy");
+        String formatteddate = dateformat.format(currentDate);
+        return formatteddate;
     }
     public  int getidprodbyprodname(String n)
     {
@@ -48,9 +55,9 @@ public class Insert
     
             ResultSet findid = stmnt.executeQuery("select idproduit from Produits where nomproduit ='"+n+"';");
     
-            while (resultatRegion.next()) 
+            while (findid.next()) 
             {
-                Idprod = findid.getInt("idregion");
+                Idprod = findid.getInt("idproduit");
             }
             return Idprod;
     
@@ -60,14 +67,14 @@ public class Insert
             e.printStackTrace();
         }
     }
+
     public static void InserdonnePannier (String namereg) 
     {
         try 
         {
             Statement stmnt = connect().createStatement();
-            stmnt.executeUpdate("INSERT INTO Achat (IdProduits,DateAchat) VALUES ('"+namereg+"')");
+            stmnt.executeUpdate("INSERT INTO Achat (IdProduits,DateAchat) VALUES ('"+getidprodbyprodname(namereg)+"' , '"+Todaydate()+"')";
             stmnt.executeUpdate("commit");
-    
         } 
         catch (Exception e) 
         {
@@ -78,7 +85,9 @@ public class Insert
     public static void main(String[] args) 
     {
         String vari = "Marseille";
+        String Date = Todaydate();
         Inserdonne(vari);
         System.out.println("Success upload");
+        System.out.println(Date);
     }
 }

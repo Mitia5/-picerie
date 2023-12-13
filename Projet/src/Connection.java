@@ -15,9 +15,7 @@ public class Connection
 
     public static Connection connect() throws SQLException 
     {
-        Connection con = null;
-        // Example:
-        con = DriverManager.getConnection(URL, USER, PASSWORD);
-        return con;
-    }       
+        
+        return (Connection) DriverManager.getConnection(URL, USER, PASSWORD);
+    }      
 }

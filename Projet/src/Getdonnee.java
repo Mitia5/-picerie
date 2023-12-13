@@ -1,3 +1,6 @@
+package mouvementbdd;
+
+import element.*;
 import java.util.ArrayList;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -19,21 +22,47 @@ public class Getdonnee
         return con;
     }
 
-    public static ArrayList<Region> getListDonne() 
+    // public static ArrayList<Region> getListDonne() 
+    // {
+    //     ArrayList<Region> regionList = new ArrayList<>();
+    //     try {
+    //         // Connection con = connect();
+    //         Statement stmnt = connect().createStatement();
+    
+    //         ResultSet resultatRegion = stmnt.executeQuery("SELECT * FROM Region");
+    
+    //         while (resultatRegion.next()) 
+    //         {
+    //             Region reg = new Region();
+    //             reg.setidregion(resultatRegion.getInt("idregion"));
+    //             reg.setnom_rg(resultatRegion.getString("nom_rg"));
+    //             regionList.add(reg);
+    //         }
+    
+    //     } 
+    //         catch (Exception e) 
+    //     {
+    //         e.printStackTrace();
+    //     }
+    //     return regionList;
+    // }
+
+    public static ArrayList<Achat> getListachat(int idclient) 
     {
-        ArrayList<Region> regionList = new ArrayList<>();
+        ArrayList<Achat> achatList = new ArrayList<>();
         try {
             // Connection con = connect();
             Statement stmnt = connect().createStatement();
     
-            ResultSet resultatRegion = stmnt.executeQuery("SELECT * FROM Region");
+            ResultSet resultatRegion = stmnt.executeQuery("SELECT * FROM Nomdeview where idclient ="+idclient+")";
     
             while (resultatRegion.next()) 
             {
-                Region reg = new Region();
-                reg.setidregion(resultatRegion.getInt("idregion"));
-                reg.setnom_rg(resultatRegion.getString("nom_rg"));
-                regionList.add(reg);
+                Achat reg = new Achat();
+                reg.setidAchat(resultatRegion.getInt("idachat"));
+                reg.setidProduit(resultatRegion.getString("idproduit"));
+                reg.setdate(resultatRegion.getString("Dateachat"));
+                achatList.add(reg);
             }
     
         } 
@@ -41,7 +70,7 @@ public class Getdonnee
         {
             e.printStackTrace();
         }
-        return regionList;
+        return achatList;
     }
 
     public static void main(String[] args) 
